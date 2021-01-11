@@ -2,10 +2,6 @@
 
 Sistema de Storage para Logging en Google Cloud Storage para Laravel 7.
 
-[![Latest Stable Version](https://poser.pugx.org/odem/laravel-stackdriver-gcl/v/stable)](https://packagist.org/packages/odem/laravel-stackdriver-gcl)
-[![Total Downloads](https://poser.pugx.org/odem/laravel-stackdriver-gcl/downloads)](https://packagist.org/packages/odem/laravel-stackdriver-gcl)
-
-
 Este paquete es un `driver` para el registro y la generación de informes de errores para Google Cloud Platform Stackdriver.
 
 ## Instalación
@@ -53,12 +49,12 @@ Se debe configurar la variable enviroment `LOG_CHANNEL` de la siguiente forma:
 
 Agregar en `app/Exceptions/Handler.php` 
    ```
-   use LaravelStackdriverGcl\StackdriverGoogle;
+   use LaravelStackdriverGcl\StackdriverLogging;
    ```
 
 En la función `report` agregar.
    ```
-   $log = new StackdriverGoogle();
+   $log = new StackdriverLogging();
    $log->customsLogs($exception);
    ```
 
