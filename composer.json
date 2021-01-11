@@ -1,6 +1,6 @@
 {
   "name": "odem/laravel-stackdriver-gcl",
-  "description": "A Google Cloud Logging system for Laravel 7",
+  "description": "Sistema de Storage para Logging en Google Cloud Storage para Laravel 7",
   "type": "library",
   "require": {
       "google/cloud-logging": "^1.18",
