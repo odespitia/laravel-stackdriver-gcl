@@ -1,0 +1,21 @@
+{
+  "name": "odem/laravel-stackdriver-gcl",
+  "description": "A Google Cloud Logging system for Laravel 7",
+  "type": "library",
+  "require": {
+      "google/cloud-logging": "^1.18",
+      "google/cloud-error-reporting": "^0.15.0"
+  },
+  "license": "MIT",
+  "authors": [
+      {
+          "name": "Oscar",
+          "email": "odespitia@gmail.com"
+      }
+  ],
+  "autoload": {
+      "psr-4": {
+          "LaravelStackdriverGcl\\": "src/"
+      }
+  }
+}

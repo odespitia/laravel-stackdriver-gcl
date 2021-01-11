@@ -4,6 +4,7 @@ Sistema de Storage para Logging en Google Cloud Storage para Laravel 7.
 
 [![Latest Stable Version](https://poser.pugx.org/odem/laravel-stackdriver-gcl/v/stable)](https://packagist.org/packages/odem/laravel-stackdriver-gcl)
 [![Total Downloads](https://poser.pugx.org/odem/laravel-stackdriver-gcl/downloads)](https://packagist.org/packages/odem/laravel-stackdriver-gcl)
+*/
 
 Este paquete es un `driver` para el registro y la generación de informes de errores para Google Cloud Platform Stackdriver.
 
@@ -34,7 +35,7 @@ Agregue un nuevo `driver` en su archivo de configuración `config/logging.php`
 
 El cliente de Google utiliza algunos métodos para determinar cómo debe autenticarse con la API de Google.
 
-Configurar las varibales enviroment `GCP_PROJECT_ID` y `GCP_CREDENTIALS` y `GCP_LOG_NAME` de la siguiente forma:.
+Configurar las varibales enviroment `GCP_PROJECT_ID` y `GCP_CREDENTIALS` y `GCP_LOG_NAME` de la siguiente forma:
    ```
    GCP_PROJECT_ID=EL ID DE PROYECTO DE GOOGLE CLOUD
    GCP_CREDENTIALS=RUTA AL ARCHIVO CREDIENTIAL.JSON
@@ -44,23 +45,23 @@ Configurar las varibales enviroment `GCP_PROJECT_ID` y `GCP_CREDENTIALS` y `GCP_
 ### Habilitación
 
 Se debe configurar la variable enviroment `LOG_CHANNEL` de la siguiente forma:
-    ```
-    LOG_CHANNEL=stackdriver
-    ```
+   ```
+   LOG_CHANNEL=stackdriver
+   ```
 
 ### Logs Personalizado
 
 Agregar en `app/Exceptions/Handler.php` 
-    ```
-    use LaravelStackdriverGcl\StackdriverGoogle;
-    ```
+   ```
+   use LaravelStackdriverGcl\StackdriverGoogle;
+   ```
 
-En la función `report` agregar
-    ```
-    $log = new StackdriverGoogle();
-    $log->customsLogs($exception);
-    ```
+En la función `report` agregar.
+   ```
+   $log = new StackdriverGoogle();
+   $log->customsLogs($exception);
+   ```
 
-Mientras se ejecutE en entornos de **Google Cloud Platform** como **Google Compute Engine**, **Google App Engine** y **Google Kubernetes Engine**, no se necesita ningún trabajo adicional. El ID del proyecto y las credenciales se descubren automáticamente.
+Mientras se ejecute en entornos de **Google Cloud Platform** como **Google Compute Engine**, **Google App Engine** y **Google Kubernetes Engine**, no se necesita ningún trabajo adicional. El ID del proyecto y las credenciales se descubren automáticamente.
 
 Para mas información consultar [Authentication documentation for the Google Cloud Client Library for PHP](https://github.com/googleapis/google-cloud-php/blob/master/AUTHENTICATION.md) 
