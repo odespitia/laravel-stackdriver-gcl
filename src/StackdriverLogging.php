@@ -74,7 +74,7 @@ class StackdriverLogging extends AbstractProcessingHandler
         $this->labels += [
             'route' => $_SERVER['HTTP_HOST'] ? $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] : 'Not Found',
             'typeLogs' => 'default',
-            'userId' => !empty(auth()->id()) ? auth()->id() : '0'
+            'userId' => !empty(auth()->id()) ? auth()->id() . "" : '0'
         ]; 
         // set options, according to Google Stackdirver API documentation
         $options = [
