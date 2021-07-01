@@ -125,7 +125,7 @@ class StackdriverLogging extends AbstractProcessingHandler
                 'route' => $_SERVER['HTTP_HOST'] ? $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] : 'Not Found',
                 'typeLogs' => 'customs',
                 'code' => "$code",
-                'userId' => !empty(auth()->id()) ? auth()->id() : '0'
+                'userId' => !empty(auth()->id()) ? auth()->id() . "" : '0'
             ]; 
             // Creates the log entry ### ' - Trace: '. $log->getTraceAsString()
             $entry = $this->logger->entry($log->getMessage() . ' - Line: '. $log->getLine(). ' - File: '. $log->getFile() , [
