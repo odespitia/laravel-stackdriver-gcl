@@ -2,6 +2,7 @@
 
 namespace LaravelStackdriverGcl;
 
+use ErrorException;
 use Google\Cloud\Logging\LoggingClient;
 use Illuminate\Support\Facades\Config;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -90,10 +91,14 @@ class StackdriverLogging extends AbstractProcessingHandler
         // Add exception data to payload
         if (is_array($record['context']) && isset($record['context']['exception'])) {
             $data['code'] = $record['context']['exception']->getCode();
-            $data['severity'] = $record['context']['exception']->getSeverity();
             $data['file'] = $record['context']['exception']->getFile();
             $data['line'] = $record['context']['exception']->getLine();
-            $data['trace'] = $record['context']['exception']->getTraceAsString();
+
+            // Some exception don't have trace or severity
+            if ($record['context']['exception'] instanceof ErrorException) {
+                $data['severity'] = $record['context']['exception']->getSeverity();
+                $data['trace'] = $record['context']['exception']->getTraceAsString();    
+            }
         }
 
         // write the entry
