@@ -86,9 +86,16 @@ class StackdriverLogging extends AbstractProcessingHandler
         $data = [
             'message' => $record['message'],
         ];
-        if ($record['context']) {
-            $data['context'] = $record['context'];
+
+        // Add exception data to payload
+        if (is_array($record['context']) && isset($record['context']['exception'])) {
+            $data['code'] = $record['context']['exception']->getCode();
+            $data['severity'] = $record['context']['exception']->getSeverity();
+            $data['file'] = $record['context']['exception']->getFile();
+            $data['line'] = $record['context']['exception']->getLine();
+            $data['trace'] = $record['context']['exception']->getTraceAsString();
         }
+
         // write the entry
         $entry = $this->logger->entry($data, $options);
         $this->logger->write($entry);
