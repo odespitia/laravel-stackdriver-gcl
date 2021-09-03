@@ -114,6 +114,7 @@ class StackdriverLogging extends AbstractProcessingHandler
             $code = (get_class($log) === 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException') ? $log->getStatusCode() : $log->getCode();
             
             $severity  = 'DEBUG';
+            $code = ($code > 99 && $code < 512) ? $code : 500;
             
             if ($code == 0 || $code == 500) {
                 $severity = 'CRITICAL';
