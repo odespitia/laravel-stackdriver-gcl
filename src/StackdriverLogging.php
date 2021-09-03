@@ -2,6 +2,7 @@
 
 namespace LaravelStackdriverGcl;
 
+use ErrorException;
 use Google\Cloud\Logging\LoggingClient;
 use Illuminate\Support\Facades\Config;
 use Monolog\Handler\AbstractProcessingHandler;
@@ -86,9 +87,20 @@ class StackdriverLogging extends AbstractProcessingHandler
         $data = [
             'message' => $record['message'],
         ];
-        if ($record['context']) {
-            $data['context'] = $record['context'];
+
+        // Add exception data to payload
+        if (is_array($record['context']) && isset($record['context']['exception'])) {
+            $data['code'] = $record['context']['exception']->getCode();
+            $data['file'] = $record['context']['exception']->getFile();
+            $data['line'] = $record['context']['exception']->getLine();
+
+            // Some exception don't have trace or severity
+            if ($record['context']['exception'] instanceof ErrorException) {
+                $data['severity'] = $record['context']['exception']->getSeverity();
+                $data['trace'] = $record['context']['exception']->getTraceAsString();    
+            }
         }
+
         // write the entry
         $entry = $this->logger->entry($data, $options);
         $this->logger->write($entry);
@@ -113,7 +125,7 @@ class StackdriverLogging extends AbstractProcessingHandler
                 'route' => isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] : 'Not Found',
                 'typeLogs' => 'customs',
                 'code' => "$code",
-                'userId' => !empty(auth()->id()) ? auth()->id() : '0'
+                'userId' => !empty(auth()->id()) ? auth()->id() . "" : '0'
             ]; 
             // Creates the log entry ### ' - Trace: '. $log->getTraceAsString()
             $entry = $this->logger->entry($log->getMessage() . ' - Line: '. $log->getLine(). ' - File: '. $log->getFile() , [
